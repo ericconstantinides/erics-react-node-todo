@@ -1,0 +1,40 @@
+.site-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+[data-todo="item"].is-complete {
+  label {
+    text-decoration: line-through;
+    color: #999;
+  }
+}
+[data-todo="item"],
+.add-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.form-check-label {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+}
+input[type=checkbox].form-check-input {
+  margin-right: 0.5rem;
+  flex: 0 0 auto;
+}
+
+[data-todo="add"],
+[data-todo="delete"],
+[data-todo="update"] {
+  margin-left: 0.5em;
+}
+[data-todo="item-edit"] {
+  text-align: right;
+}
+[data-todo="edit-item"] {
+  margin-bottom: 0.5em;
+}
