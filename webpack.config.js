@@ -1,8 +1,7 @@
-
-
 module.exports = {
+  devtool: 'inline-source-map',
   entry: [
-    './src/index.js'
+    './src/app.js'
   ],
   output: {
     path: __dirname,
@@ -22,11 +21,11 @@ module.exports = {
             'es2015',
             'stage-1'
           ],
-          // plugins: [
-            // 'react-html-attrs', // lets you use attribute "class" instead of "className" and "for" instead of "htmlFor"
-            // 'transform-class-properties', // ES7 feature to allow for "static" class properties
-            // 'transform-decorators-legacy', // allows us to use "decorators"
-          // ],
+          plugins: [
+            'react-html-attrs', // lets you use attribute "class" instead of "className" and "for" instead of "htmlFor"
+            'transform-class-properties', // ES7 feature to allow for "static" class properties
+            'transform-decorators-legacy', // allows us to use "decorators"
+          ],
         }
       }
     ]
