@@ -78,12 +78,11 @@ class displayEditItem extends Component {
     }
   }
   render() {
-
-    let status = this.props.todoItem.status === 'complete' ? 'list-group-item is-complete' : 'list-group-item'
-
     if (this.props.todoItem.status === 'open' || this.props.todoItem.status === 'complete') {
       return (
-        <li className={status} data-todo="item">
+        <li
+          className="list-group-item"
+          data-todo={this.props.todoItem.status === 'complete' ? 'item-complete' : 'item'}>
           <label className="form-check-label" data-todo="checkmark">
             <input className="form-check-input"
               type="checkbox"

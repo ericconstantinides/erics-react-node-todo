@@ -38,9 +38,6 @@ class App extends Component {
     this.setState({todos})
     // need to add this to the database And then return its new unique id
   }
-  completeTodo = () => {
-    // we're doing this next!!
-  }
   updateStatus = (id, status) => {
     const todoToUpdate = this.state.todos.find(todo => todo._id === id)
     todoToUpdate.status = status
@@ -67,6 +64,7 @@ class App extends Component {
       return todo
     })
     this.setState({todos})
+    // do the db stuff here
   }
   render() {
     return (
@@ -74,7 +72,6 @@ class App extends Component {
         <h1>Eric's React To Do App</h1>
         <ListItems
           todos={this.state.todos}
-          completeTodo={this.completeTodo}
           updateStatus={this.updateStatus}
           updateTitle={this.updateTitle}
           deleteTodo={this.deleteTodo}

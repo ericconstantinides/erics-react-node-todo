@@ -1,7 +1,7 @@
 import React from 'react'
 import DisplayEditItem from './display-edit-item.js'
 
-const listItems = ({ todos, completeTodo, updateStatus, updateTitle, deleteTodo, removeAllEditStatus}) => {
+const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, removeAllEditStatus}) => {
   if (!todos) return <div>Loading...</div>
   const todoItems = todos.map( todoItem => {
     return (
@@ -9,7 +9,6 @@ const listItems = ({ todos, completeTodo, updateStatus, updateTitle, deleteTodo,
         key={todoItem._id}
         todoItem={todoItem}
 
-        completeTodo={completeTodo}
         updateStatus={updateStatus}
         updateTitle={updateTitle}
         deleteTodo={deleteTodo}

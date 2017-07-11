@@ -4,17 +4,16 @@
   padding: 0 1em;
 }
 
-[data-todo="item"].is-complete {
-  label {
-    text-decoration: line-through;
-    color: #999;
-  }
-}
+[data-todo="item-complete"],
 [data-todo="item"],
 .add-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+[data-todo="item-complete"] label {
+  text-decoration: line-through;
+  color: #999;
 }
 .form-check-label {
   margin-bottom: 0;
