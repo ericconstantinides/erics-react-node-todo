@@ -28,7 +28,6 @@ class App extends Component {
       .catch(error => console.log('Request failed', error))
   }
   addTodo = (newTodoTitle) => {
-    console.log(newTodoTitle)
     const newTodo = {
       title: newTodoTitle,
       status: 'open',
@@ -48,10 +47,26 @@ class App extends Component {
     this.setState({todos: this.state.todos})
     // do the db work here:
   }
+  updateTitle = (id, title) => {
+    const todoToUpdate = this.state.todos.find(todo => todo._id === id)
+    todoToUpdate.title = title
+    todoToUpdate.status = 'open'
+    this.setState({todos: this.state.todos})
+    // do the DB work
+  }
   deleteTodo = (id) => {
     const todos = this.state.todos.filter(todo => todo._id !== id)
     this.setState({todos})
     // need to add db delete here:
+  }
+  removeAllEditStatus = () => {
+    const todos = this.state.todos.map(todo => {
+      if (todo.status === 'edit') {
+        todo.status = 'open'
+      }
+      return todo
+    })
+    this.setState({todos})
   }
   render() {
     return (
@@ -61,7 +76,9 @@ class App extends Component {
           todos={this.state.todos}
           completeTodo={this.completeTodo}
           updateStatus={this.updateStatus}
+          updateTitle={this.updateTitle}
           deleteTodo={this.deleteTodo}
+          removeAllEditStatus={this.removeAllEditStatus}
         />
         <AddItem
           addTodo={this.addTodo}

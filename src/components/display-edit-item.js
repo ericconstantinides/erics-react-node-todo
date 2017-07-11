@@ -8,46 +8,107 @@ class displayEditItem extends Component {
     this.props.deleteTodo(this.props.todoItem._id)
   }
   handleEdit = () => {
-
+    this.props.removeAllEditStatus()
+    this.props.updateStatus(this.props.todoItem._id, 'edit')
   }
-
   handleComplete = () => {
     let status = this.props.todoItem.status === 'complete' ? 'open' : 'complete'
     this.props.updateStatus(this.props.todoItem._id, status)
   }
+  handleCancel = () => {
+    this.props.updateStatus(this.props.todoItem._id, 'open')
+  }
+  handleUpdate = () => {
+    if (this.refs.editTodo.value) {
+      this.props.updateTitle(this.props.todoItem._id, this.refs.editTodo.value)
+    }
+  }
+  handleEscape = (event) => {
+    if (event.keyCode === 27) {
+      this.props.updateStatus(this.props.todoItem._id, 'open')
+    }
+  }
+  handleEnter = (event) => {
+    if (event.keyCode === 13) {
+      this.handleUpdate()
+    }
+  }
+  componentDidUpdate = (event) => {
+    if (this.props.todoItem.status === 'edit') {
+      this.refs.editTodo.focus()
+    }
+  }
+  renderButtons = () => {
+    if (this.props.todoItem.status === 'open') {
+      return (
+        <button
+          className="btn btn-sm btn-default"
+          onClick={this.handleEdit}
+          data-todo="edit"
+        >Edit</button>
+      )
+    } else if (this.props.todoItem.status === 'complete') {
+      return (
+        <button
+          className="btn btn-sm btn-danger"
+          data-todo="delete"
+          onClick={this.handleDelete}
+        >Delete</button>
+      )
+    } else if (this.props.todoItem.status === 'edit') {
+      return (
+        <span>
+          <button
+            className="btn btn-sm btn-default"
+            data-todo="cancel"
+            onClick={this.handleCancel}
+          >Cancel</button>
+          <button
+            className="btn btn-sm btn-success"
+            data-todo="update"
+            onClick={this.handleUpdate}
+          >Update</button>
+          <button
+            className="btn btn-sm btn-danger"
+            data-todo="delete"
+            onClick={this.handleDelete}
+          >Delete</button>
+        </span>
+      )
+    }
+  }
   render() {
 
-    console.log()
-
-    let button = this.props.todoItem.status === 'complete' ?
-    <button className="btn btn-sm btn-danger" onClick={this.handleDelete} data-todo="delete">Delete</button> :
-    <button className="btn btn-sm btn-default" onClick={this.handleEdit} data-todo="edit">Edit</button>
-
     let status = this.props.todoItem.status === 'complete' ? 'list-group-item is-complete' : 'list-group-item'
-    let checked = this.props.todoItem.status === 'complete' ? 'checked' : ''
 
     if (this.props.todoItem.status === 'open' || this.props.todoItem.status === 'complete') {
       return (
-        <li className={status} data-todo="item" data-id={this.props.todoItem._id}>
+        <li className={status} data-todo="item">
           <label className="form-check-label" data-todo="checkmark">
             <input className="form-check-input"
               type="checkbox"
-              checked={checked}
+              checked={this.props.todoItem.status === 'complete' ? 'checked' : ''}
               data-todo="checkmark"
-              onClick={this.handleComplete}
+              onChange={this.handleComplete}
             />
             {this.props.todoItem.title}
           </label>
-          {button}
+          {this.renderButtons()}
         </li>
       )
     } else if (this.props.todoItem.status === 'edit') {
       return (
         <li className="list-group-item edit" data-todo="item-edit">
-          <input className="form-control" data-todo="edit-item" type="text" value="${item.title}" />
-          <button className="btn btn-sm btn-default" data-todo="cancel">Cancel</button>
-          <button className="btn btn-sm btn-success" data-todo="update">Update</button>
-          <button className="btn btn-sm btn-danger" data-todo="delete">Delete</button>
+          <input
+            className="form-control"
+            data-todo="edit-item"
+            ref="editTodo"
+            type="text"
+            onKeyUp={this.handleEscape}
+            onKeyDown={this.handleEnter}
+            defaultValue={this.props.todoItem.title}
+          />
+          {this.renderButtons()}
         </li>
       )
     }
@@ -55,6 +116,3 @@ class displayEditItem extends Component {
 }
 
 export default displayEditItem
-
-
-

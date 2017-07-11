@@ -6,14 +6,21 @@ class AddItem extends Component {
     this.state = {}
   }
   handleAdd = () => {
-    this.props.addTodo(this.refs.monkey.value)
-    this.refs.monkey.value = ''
+    if (this.refs.addNewTodo.value) {
+      this.props.addTodo(this.refs.addNewTodo.value)
+      this.refs.addNewTodo.value = ''
+    }
+  }
+  handleEnter = (event) => {
+    if (event.keyCode === 13) {
+      this.handleAdd()
+    }
   }
   render() {
     return (
       <div className="add-container">
-        <input className="form-control" placeholder="Enter a new todo item" ref="monkey" data-todo="add-item" type="text" />
-        <button className="btn btn-sm btn-primary" data-todo="add" value="add" onClick={this.handleAdd}>Add</button>
+        <input className="form-control" placeholder="Enter a new todo item" ref="addNewTodo" data-todo="add-item" type="text" onKeyDown={this.handleEnter} />
+        <button className="btn btn-sm btn-primary" data-todo="add" value="add" onClick={this.handleAdd} >Add</button>
       </div>
     )
   }
