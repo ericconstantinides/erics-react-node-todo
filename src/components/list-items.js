@@ -8,7 +8,6 @@ const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, removeAllEdit
       <DisplayEditItem
         key={todoItem._id}
         todoItem={todoItem}
-
         updateStatus={updateStatus}
         updateTitle={updateTitle}
         deleteTodo={deleteTodo}
@@ -17,7 +16,7 @@ const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, removeAllEdit
     )
   })
   return (
-    <ul className="list-group" data-todo="list">
+    <ul className="list-group">
       {todoItems}
     </ul>
   )

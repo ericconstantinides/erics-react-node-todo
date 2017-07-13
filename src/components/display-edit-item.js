@@ -2,7 +2,29 @@ import React, { Component } from 'react'
 
 class displayEditItem extends Component {
   constructor(props) {
-    super(props);
+    super(props)
+    this.buttons = {
+      edit: <button
+        className="btn btn-sm btn-default"
+        onClick={this.handleEdit}
+        data-todo="edit"
+      >Edit</button>,
+      cancel: <button
+        className="btn btn-sm btn-default"
+        data-todo="cancel"
+        onClick={this.handleCancel}
+      >Cancel</button>,
+      update: <button
+        className="btn btn-sm btn-success"
+        data-todo="update"
+        onClick={this.handleUpdate}
+      >Update</button>,
+      delete: <button
+        className="btn btn-sm btn-danger"
+        data-todo="delete"
+        onClick={this.handleDelete}
+      >Delete</button>
+    }
   }
   handleDelete = () => {
     this.props.deleteTodo(this.props.todoItem._id)
@@ -41,47 +63,8 @@ class displayEditItem extends Component {
       this.refs.editTodo.focus()
     }
   }
-  renderButtons = () => {
-    if (this.props.todoItem.status === 'open') {
-      return (
-        <button
-          className="btn btn-sm btn-default"
-          onClick={this.handleEdit}
-          data-todo="edit"
-        >Edit</button>
-      )
-    } else if (this.props.todoItem.status === 'complete') {
-      return (
-        <button
-          className="btn btn-sm btn-danger"
-          data-todo="delete"
-          onClick={this.handleDelete}
-        >Delete</button>
-      )
-    } else if (this.props.todoItem.status === 'edit') {
-      return (
-        <span>
-          <button
-            className="btn btn-sm btn-default"
-            data-todo="cancel"
-            onClick={this.handleCancel}
-          >Cancel</button>
-          <button
-            className="btn btn-sm btn-success"
-            data-todo="update"
-            onClick={this.handleUpdate}
-          >Update</button>
-          <button
-            className="btn btn-sm btn-danger"
-            data-todo="delete"
-            onClick={this.handleDelete}
-          >Delete</button>
-        </span>
-      )
-    }
-  }
   render() {
-    if (this.props.todoItem.status === 'open' || this.props.todoItem.status === 'complete') {
+    if (this.props.todoItem.status !== 'edit') {
       return (
         <li
           className="list-group-item"
@@ -95,10 +78,10 @@ class displayEditItem extends Component {
             />
             {this.props.todoItem.title}
           </label>
-          {this.renderButtons()}
+          {this.props.todoItem.status === 'open' ? this.buttons.edit : this.buttons.delete}
         </li>
       )
-    } else if (this.props.todoItem.status === 'edit') {
+    } else {
       return (
         <li className="list-group-item edit" data-todo="item-edit">
           <input
@@ -110,7 +93,9 @@ class displayEditItem extends Component {
             onKeyDown={this.handleEnter}
             defaultValue={this.props.todoItem.title}
           />
-          {this.renderButtons()}
+          {this.buttons.cancel}
+          {this.buttons.update}
+          {this.buttons.delete}
         </li>
       )
     }

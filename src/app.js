@@ -20,14 +20,14 @@ class App extends Component {
     this.api.get(data => this.setState({todos: data}))
   }
   addTodo = (newTodoTitle) => {
-    const tempId = Math.random().toString(36).substring(7)
     const newTodo = {
       title: newTodoTitle,
       status: 'open',
     }
+    const tempId = Math.random().toString(36).substring(7)
     // call the api BEFORE giving it a temp ID
     this.api.post(newTodo, data => {
-      // but the time we're in callback, we've already gone ahead and given the tempID
+      // buy the time we're in callback, we've already gone ahead and given the tempID
       const todoToUpdate = this.state.todos.find(todo => todo._id === tempId)
       todoToUpdate._id = data._id
       this.setState({todos: this.state.todos})
@@ -54,7 +54,7 @@ class App extends Component {
   deleteTodo = (id) => {
     const todos = this.state.todos.filter(todo => todo._id !== id)
     this.setState({todos})
-    this.api.del(id)
+    this.api.delete(id)
   }
   removeAllEditStatus = () => {
     const todos = this.state.todos.map(todo => {
@@ -76,7 +76,6 @@ class App extends Component {
         })
         .then(status)
         .then(json)
-        // Success, add the id to the last one:
         .then(data => callback(data))
         .catch(error => console.log('Request failed', error));
     },
@@ -96,14 +95,12 @@ class App extends Component {
         .then(status)
         .catch(error => console.log('Request failed', error));
     },
-    del(dbId) {
+    delete(dbId) {
       fetch(`/todos/${dbId}`, { method: 'DELETE' })
         .then(status)
         .catch(error => console.log('Request failed', error));
     }
   }
-
-
   render() {
     return (
       <div>
