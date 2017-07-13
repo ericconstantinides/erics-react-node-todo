@@ -4,20 +4,12 @@ import ReactDOM from 'react-dom'
 import ListItems from './components/list-items.js'
 import AddItem from './components/add-item.js'
 
-function status(response) {
-  if (response.status >= 200 && response.status < 300) return Promise.resolve(response)
-  else return Promise.reject(new Error(response.statusText))
-}
-
-function json(response) {
-  return response.json()
-}
+const TODOS_FOLDER = '/todos'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.api.get(data => this.setState({todos: data}))
   }
   addTodo = (newTodoTitle) => {
     const newTodo = {
@@ -66,38 +58,39 @@ class App extends Component {
     })
     this.setState({todos})
   }
+  componentDidMount = () => {
+    this.api.get(data => this.setState({todos: data}))
+  }
   // DB Events:
   api = {
     post(newTodo, callback) {
-      fetch('/todos', {
+      fetch(TODOS_FOLDER, {
           method: 'POST',
           headers: {'Content-type': 'application/json'},
           body: JSON.stringify(newTodo)
         })
-        .then(status)
-        .then(json)
+        .then(res => res.json())
         .then(data => callback(data))
         .catch(error => console.log('Request failed', error));
     },
     get(callback) {
-      fetch('/todos')
-        .then(status)
-        .then(json)
+      fetch(TODOS_FOLDER)
+        .then(res => res.json())
         .then(data => callback(data))
         .catch(error => console.log('Request failed', error))
     },
     put(todo) {
-      fetch(`/todos/${todo._id}`, {
+      fetch(`${TODOS_FOLDER}/${todo._id}`, {
           method: 'PUT',
           headers: {'Content-type': 'application/json'},
           body: JSON.stringify({title: todo.title, status: todo.status})
         })
-        .then(status)
+        .then(res => res.json())
         .catch(error => console.log('Request failed', error));
     },
     delete(dbId) {
-      fetch(`/todos/${dbId}`, { method: 'DELETE' })
-        .then(status)
+      fetch(`${TODOS_FOLDER}/${dbId}`, { method: 'DELETE' })
+        .then(res => res.json())
         .catch(error => console.log('Request failed', error));
     }
   }
