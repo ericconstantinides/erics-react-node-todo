@@ -1,11 +1,8 @@
-// import React, { Component } from 'react';
-// import logo from './logo.svg';
+import React, { Component } from 'react'
+
 import './css/bootstrap.min.css';
 import './css/bootstrap-theme.min.css';
 import './App.css';
-
-import React, { Component } from 'react'
-// import ReactDOM from 'react-dom'
 
 import ListItems from './components/list-items.js'
 import AddItem from './components/add-item.js'
