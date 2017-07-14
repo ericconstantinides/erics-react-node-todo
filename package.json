@@ -5,9 +5,12 @@
   "author": "Eric Constantinides",
   "license": "MIT",
   "scripts": {
-    "local": "nodemon ./bin/www",
-    "start": "node ./bin/www",
-    "web": "node ./bin/www"
+    "XXXlocal": "nodemon ./bin/www",
+    "XXXstart": "node ./bin/www",
+    "XXXweb": "node ./bin/www",
+    "start": "concurrently \"yarn run server\" \"yarn run client\"",
+    "server": "nodemon ./bin/www",
+    "client": "node start-client.js"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
