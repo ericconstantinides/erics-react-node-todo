@@ -59,6 +59,11 @@ class App extends Component {
       }
     })
   }
+  sortTodos = (sortedList) => {
+    sortedList.forEach(item => console.dir(item.content.props.todoItem.title))
+    console.log('=================')
+    // here's what I have to do:
+  }
   componentDidMount = () => {
     this.api.get(data => this.setState({todos: data}))
   }
@@ -104,6 +109,7 @@ class App extends Component {
           updateStatus={this.updateStatus}
           updateTitle={this.updateTitle}
           deleteTodo={this.deleteTodo}
+          sortTodos={this.sortTodos}
           removeAllEditStatus={this.removeAllEditStatus}
         />
         <AddItem

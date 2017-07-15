@@ -2,11 +2,7 @@ import React from 'react'
 import DragSortableList from 'react-drag-sortable'
 import DisplayEditItem from './display-edit-item.js'
 
-const onSort = function(sortedList) {
-  console.log("sortedList", sortedList);
-}
-
-const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, removeAllEditStatus}) => {
+const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, sortTodos, removeAllEditStatus}) => {
   if (!todos) return <div>Loading...</div>
   let todoItems = todos.map( todoItem => {
     return (
@@ -23,7 +19,8 @@ const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, removeAllEdit
   return (
     <DragSortableList
       items={todoItems}
-      onSort={onSort}
+      onSort={sortTodos}
+      placeholder={<div className="placeholderContent">move here</div>}
       dropBackTransitionDuration={0.3}
       type="vertical"
     />

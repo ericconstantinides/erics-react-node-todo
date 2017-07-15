@@ -5,22 +5,22 @@ class displayEditItem extends Component {
     super(props)
     this.buttons = {
       edit: <button
-        className="btn btn-sm btn-default"
+        className="btn btn-sm btn-default no-drag"
         onClick={this.handleEdit}
         data-todo="edit"
       >Edit</button>,
       cancel: <button
-        className="btn btn-sm btn-default"
+        className="btn btn-sm btn-default no-drag"
         data-todo="cancel"
         onClick={this.handleCancel}
       >Cancel</button>,
       update: <button
-        className="btn btn-sm btn-success"
+        className="btn btn-sm btn-success no-drag"
         data-todo="update"
         onClick={this.handleUpdate}
       >Update</button>,
       delete: <button
-        className="btn btn-sm btn-danger"
+        className="btn btn-sm btn-danger no-drag"
         data-todo="delete"
         onClick={this.handleDelete}
       >Delete</button>
@@ -66,23 +66,29 @@ class displayEditItem extends Component {
   render() {
     if (this.props.todoItem.status !== 'edit') {
       return (
-        <div
+        <div className="list-group-item__inner"
           data-todo={this.props.todoItem.status === 'complete' ? 'item-complete' : 'item'}>
-          <label className="form-check-label" data-todo="checkmark">
-            <input className="form-check-input"
-              type="checkbox"
-              checked={this.props.todoItem.status === 'complete' ? 'checked' : ''}
-              data-todo="checkmark"
-              onChange={this.handleComplete}
-            />
-            {this.props.todoItem.title}
-          </label>
-          {this.props.todoItem.status === 'open' ? this.buttons.edit : this.buttons.delete}
+          <div className="list-group-item__drag drag">
+            <span className="drag__item"></span>
+            <span className="drag__item"></span>
+          </div>
+          <div className="list-group-item__no-drag no-drag">
+            <label className="form-check-label no-drag" data-todo="checkmark">
+              <input className="form-check-input no-drag"
+                type="checkbox"
+                checked={this.props.todoItem.status === 'complete' ? 'checked' : ''}
+                data-todo="checkmark"
+                onChange={this.handleComplete}
+              />
+              {this.props.todoItem.title}
+            </label>
+            {this.props.todoItem.status === 'open' ? this.buttons.edit : this.buttons.delete}
+          </div>
         </div>
       )
     } else {
       return (
-        <div className="edit" data-todo="item-edit">
+        <div className="edit no-drag" data-todo="item-edit">
           <input
             className="form-control"
             data-todo="edit-item"
