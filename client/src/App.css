@@ -32,7 +32,7 @@
 }
 .drag__item {
   display: block;
-  width: 16px;
+  width: 15px;
   height: 2px;
   background: #777;
   margin: 1px 0;

@@ -18,6 +18,7 @@ class App extends Component {
     const newTodo = {
       title: newTodoTitle,
       status: 'open',
+      order: this.state.todos.length
     }
     const tempId = Math.random().toString(36).substring(7)
     // call the api BEFORE giving it a temp ID
@@ -60,9 +61,13 @@ class App extends Component {
     })
   }
   sortTodos = (sortedList) => {
-    sortedList.forEach(item => console.dir(item.content.props.todoItem.title))
-    console.log('=================')
-    // here's what I have to do:
+    const todos = this.state.todos.map(todoItem => {
+      const thisTodo = sortedList.find(sortedItem => sortedItem.content.props.todoItem._id === todoItem._id)
+      todoItem.order = thisTodo.rank
+      this.api.put(todoItem)
+      return todoItem
+    })
+    this.setState({todos})
   }
   componentDidMount = () => {
     this.api.get(data => this.setState({todos: data}))
@@ -89,7 +94,7 @@ class App extends Component {
       fetch(`${TODOS_FOLDER}/${todo._id}`, {
           method: 'PUT',
           headers: {'Content-type': 'application/json'},
-          body: JSON.stringify({title: todo.title, status: todo.status})
+          body: JSON.stringify({title: todo.title, status: todo.status, order: todo.order})
         })
         .then(res => res.json())
         .catch(error => console.log('Request failed', error));

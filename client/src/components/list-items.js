@@ -4,6 +4,7 @@ import DisplayEditItem from './display-edit-item.js'
 
 const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, sortTodos, removeAllEditStatus}) => {
   if (!todos) return <div>Loading...</div>
+  todos.sort( (a,b) => a.order - b.order)
   let todoItems = todos.map( todoItem => {
     return (
       {content: (<DisplayEditItem
@@ -20,7 +21,7 @@ const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, sortTodos, re
     <DragSortableList
       items={todoItems}
       onSort={sortTodos}
-      placeholder={<div className="placeholderContent">move here</div>}
+      placeholder={<div className="placeholderContent">move todo here</div>}
       dropBackTransitionDuration={0.3}
       type="vertical"
     />
