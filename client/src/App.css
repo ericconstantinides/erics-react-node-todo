@@ -19,6 +19,7 @@
 .list-group-item__drag {
   padding: 10px 15px;
   cursor: row-resize;
+  cursor: -webkit-grab;
 }
 .list-group-item__no-drag {
   flex: 1;
@@ -86,7 +87,12 @@ input[type=checkbox].form-check-input {
 }
 [data-todo="item-edit"] {
   text-align: right;
+  padding: 10px 15px;
 }
 [data-todo="edit-item"] {
   margin-bottom: 0.5em;
+}
+
+.add-container {
+  margin: 1em 0;
 }
