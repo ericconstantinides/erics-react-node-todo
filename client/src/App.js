@@ -52,14 +52,12 @@ class App extends Component {
     this.api.delete(id)
   }
   removeAllEditStatus = () => {
-    const todos = this.state.todos.map(todo => {
+    this.state.todos.forEach(todo => {
       if (todo.status === 'edit') {
-        todo.status = 'open'
+        this.updateStatus(todo._id,'open')
         this.api.put(todo)
       }
-      return todo
     })
-    this.setState({todos})
   }
   componentDidMount = () => {
     this.api.get(data => this.setState({todos: data}))

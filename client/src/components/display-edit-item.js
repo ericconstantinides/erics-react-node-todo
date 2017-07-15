@@ -55,9 +55,9 @@ class displayEditItem extends Component {
       this.handleUpdate()
     }
   }
-  componentWillMount = () => {
-    this.props.removeAllEditStatus()
-  }
+  // componentWillMount = () => {
+    // this.props.removeAllEditStatus()
+  // }
   componentDidUpdate = (event) => {
     if (this.props.todoItem.status === 'edit') {
       this.refs.editTodo.focus()
@@ -66,8 +66,7 @@ class displayEditItem extends Component {
   render() {
     if (this.props.todoItem.status !== 'edit') {
       return (
-        <li
-          className="list-group-item"
+        <div
           data-todo={this.props.todoItem.status === 'complete' ? 'item-complete' : 'item'}>
           <label className="form-check-label" data-todo="checkmark">
             <input className="form-check-input"
@@ -79,11 +78,11 @@ class displayEditItem extends Component {
             {this.props.todoItem.title}
           </label>
           {this.props.todoItem.status === 'open' ? this.buttons.edit : this.buttons.delete}
-        </li>
+        </div>
       )
     } else {
       return (
-        <li className="list-group-item edit" data-todo="item-edit">
+        <div className="edit" data-todo="item-edit">
           <input
             className="form-control"
             data-todo="edit-item"
@@ -96,7 +95,7 @@ class displayEditItem extends Component {
           {this.buttons.cancel}
           {this.buttons.update}
           {this.buttons.delete}
-        </li>
+        </div>
       )
     }
   }
