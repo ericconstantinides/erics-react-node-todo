@@ -17,7 +17,6 @@ class AddItem extends Component {
           ref="addNewTodo"
           data-todo="add-item"
           type="text"
-          onKeyDown={this.handleEnter}
         />
         <button
           className="btn btn-sm btn-primary"
