@@ -6,6 +6,8 @@ import './css/bootstrap.min.css';
 import './css/bootstrap-theme.min.css';
 import './App.css';
 
+import Login from './components/login.js'
+import Logout from './components/logout.js'
 import ListItems from './components/list-items.js'
 import AddItem from './components/add-item.js'
 
@@ -14,7 +16,10 @@ const TODOS_FOLDER = '/todos'
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      todos: null,
+      loggedIn: false
+    }
   }
   addTodo = (newTodoTitle) => {
     const newTodo = {
@@ -74,6 +79,9 @@ class App extends Component {
   componentDidMount = () => {
     this.api.list(data => this.setState({todos: data}))
   }
+  toggleLogin = () => {
+    this.setState({loggedIn: !this.state.loggedIn})
+  }
   // DB Events:
   api = {
     create(newTodo, callback) {
@@ -121,22 +129,32 @@ class App extends Component {
     }
   }
   render() {
-    return (
-      <div>
-        <h1>Eric's React To Do App</h1>
-        <ListItems
-          todos={this.state.todos}
-          updateStatus={this.updateStatus}
-          updateTitle={this.updateTitle}
-          deleteTodo={this.deleteTodo}
-          sortTodos={this.sortTodos}
-          removeAllEditStatus={this.removeAllEditStatus}
-        />
-        <AddItem
-          addTodo={this.addTodo}
-        />
-      </div>
-    )
+    if (!this.state.loggedIn) {
+      return (
+        <div>
+          <h1>Eric's React To Do App</h1>
+          <Login toggleLogin={this.toggleLogin} />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <h1>Eric's React To Do App</h1>
+          <ListItems
+            todos={this.state.todos}
+            updateStatus={this.updateStatus}
+            updateTitle={this.updateTitle}
+            deleteTodo={this.deleteTodo}
+            sortTodos={this.sortTodos}
+            removeAllEditStatus={this.removeAllEditStatus}
+          />
+          <AddItem
+            addTodo={this.addTodo}
+          />
+          <Logout toggleLogin={this.toggleLogin} />
+        </div>
+      )
+    }
   }
 }
 

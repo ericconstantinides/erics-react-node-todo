@@ -3,7 +3,9 @@
   margin: 0 auto;
   padding: 0 1em;
 }
-.list-group-item__inner {
+h1 {
+  font-size: 2em;
+  text-align: center;
 }
 .list-group-item {
   display: flex;
