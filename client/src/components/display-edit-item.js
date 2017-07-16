@@ -92,8 +92,8 @@ class displayEditItem extends Component {
             onKeyDown={this.handleEnter}
             defaultValue={this.props.todoItem.title}
           />
-          {this.buttons.cancel}
           {this.buttons.update}
+          {this.buttons.cancel}
           {this.buttons.delete}
         </div>
       )

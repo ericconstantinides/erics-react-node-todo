@@ -59,9 +59,7 @@ input[type=checkbox].form-check-input {
   flex: 0 0 auto;
 }
 
-[data-todo="add"],
-[data-todo="delete"],
-[data-todo="update"] {
+.btn {
   margin-left: 0.5em;
 }
 [data-todo="item-edit"] {
