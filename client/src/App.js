@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import fetch from 'isomorphic-fetch'
 import { arrayMove } from 'react-sortable-hoc'
 
 import './css/bootstrap.min.css';
