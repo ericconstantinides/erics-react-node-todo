@@ -1,20 +1,16 @@
 import React, { Component } from 'react'
 
 class AddItem extends Component {
-  handleAdd = () => {
+  handleSubmit = event => {
+    event.preventDefault()
     if (this.refs.addNewTodo.value) {
       this.props.addTodo(this.refs.addNewTodo.value)
       this.refs.addNewTodo.value = ''
     }
   }
-  handleEnter = (event) => {
-    if (event.keyCode === 13) {
-      this.handleAdd()
-    }
-  }
   render() {
     return (
-      <div className="add-container">
+      <form className="add-container" onSubmit={this.handleSubmit}>
         <input
           className="form-control"
           placeholder="Enter a new todo item"
@@ -26,10 +22,9 @@ class AddItem extends Component {
         <button
           className="btn btn-sm btn-primary"
           data-todo="add"
-          value="add"
-          onClick={this.handleAdd}
+          type="submit"
         >Add</button>
-      </div>
+      </form>
     )
   }
 }
