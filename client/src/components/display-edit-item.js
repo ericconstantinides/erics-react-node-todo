@@ -66,24 +66,18 @@ class displayEditItem extends Component {
   render() {
     if (this.props.todoItem.status !== 'edit') {
       return (
-        <div className="list-group-item__inner"
+        <div className="list-group-item__no-drag"
           data-todo={this.props.todoItem.status === 'complete' ? 'item-complete' : 'item'}>
-          <div className="list-group-item__drag drag">
-            <span className="drag__item"></span>
-            <span className="drag__item"></span>
-          </div>
-          <div className="list-group-item__no-drag no-drag">
-            <label className="form-check-label no-drag" data-todo="checkmark">
-              <input className="form-check-input no-drag"
-                type="checkbox"
-                checked={this.props.todoItem.status === 'complete' ? 'checked' : ''}
-                data-todo="checkmark"
-                onChange={this.handleComplete}
-              />
-              {this.props.todoItem.title}
-            </label>
-            {this.props.todoItem.status === 'open' ? this.buttons.edit : this.buttons.delete}
-          </div>
+          <label className="form-check-label no-drag" data-todo="checkmark">
+            <input className="form-check-input no-drag"
+              type="checkbox"
+              checked={this.props.todoItem.status === 'complete' ? 'checked' : ''}
+              data-todo="checkmark"
+              onChange={this.handleComplete}
+            />
+            {this.props.todoItem.title}
+          </label>
+          {this.props.todoItem.status === 'open' ? this.buttons.edit : this.buttons.delete}
         </div>
       )
     } else {

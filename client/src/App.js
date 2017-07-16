@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import { arrayMove } from 'react-sortable-hoc'
+
 import './css/bootstrap.min.css';
 import './css/bootstrap-theme.min.css';
 import './App.css';
@@ -60,13 +62,13 @@ class App extends Component {
       }
     })
   }
-  sortTodos = (sortedList) => {
-    const todos = this.state.todos.map(todoItem => {
-      const thisTodo = sortedList.find(sortedItem => sortedItem.content.props.todoItem._id === todoItem._id)
-      todoItem.order = thisTodo.rank
-      this.api.put(todoItem)
-      return todoItem
-    })
+  sortTodos = ({oldIndex, newIndex}) => {
+    const todos = arrayMove(this.state.todos, oldIndex, newIndex)
+      .map((todoItem, index) => {
+        todoItem.order = index
+        this.api.put(todoItem)
+        return todoItem
+      })
     this.setState({todos})
   }
   componentDidMount = () => {
