@@ -27,6 +27,17 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
+/* BATCH PUT /todos/ */
+router.put('/', function(req, res, next) {
+  res.json(req.body.map(todo => {
+    const {_id, title, status, order} = todo
+    Todo.findByIdAndUpdate(_id, {title, status, order}, (err, post) => {
+      if (err) return next(err);
+      return post
+    });
+  }))
+});
+
 /* PUT /todos/:id */
 router.put('/:id', function(req, res, next) {
   Todo.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
