@@ -27,11 +27,12 @@ router.get('/:id', function(req, res, next) {
   })
 })
 
-/* BATCH PUT /todos/ */
-router.put('/', function(req, res, next) {
+/* BATCH PATCH /todos/ */
+router.patch('/', function(req, res, next) {
   res.json(req.body.map(todo => {
-    const {_id, title, status, order} = todo
-    Todo.findByIdAndUpdate(_id, {title, status, order}, (err, post) => {
+    const {_id} = todo
+    if (todo.hasOwnProperty('_id')) delete todo._id
+    Todo.findByIdAndUpdate(_id, todo, (err, post) => {
       if (err) return next(err)
       return post
     })
@@ -42,15 +43,30 @@ router.put('/', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   Todo.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err)
+    res.statusMessage = 'Successfully Updated'
+    res.json(post)
+  })
+})
+
+/* PATCH /todos/:id */
+router.patch('/:id', function(req, res, next) {
+  if (req.body.hasOwnProperty('_id')) delete req.body._id
+  Todo.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+    if (err) return next(err)
+    res.statusCode = '200'
+    res.statusMessage = 'Successfully Updated'
     res.json(post)
   })
 })
 
 /* DELETE /todos/:id */
 router.delete('/:id', function(req, res, next) {
-  Todo.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+  Todo.findByIdAndRemove(req.params.id, function (err, post) {
     if (err) return next(err)
-    res.json(post)
+    res.statusCode = '204'
+    res.statusMessage = 'Successfully Deleted'
+    res.body = {data: null}
+    res.json()
   })
 })
 

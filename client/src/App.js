@@ -36,39 +36,42 @@ class App extends Component {
     todos.push(newTodo)
     this.setState({todos})
   }
-  updateStatus = (id, status) => {
-    const todoToUpdate = this.state.todos.find(todo => todo._id === id)
+  updateStatus = (_id, status) => {
+    const todoToUpdate = this.state.todos.find(todo => todo._id === _id)
     todoToUpdate.status = status
     this.setState({todos: this.state.todos})
-    this.api.update(todoToUpdate)
+    this.api.update({_id, status})
   }
-  updateTitle = (id, title) => {
-    const todoToUpdate = this.state.todos.find(todo => todo._id === id)
+  updateTitle = (_id, title) => {
+    const todoToUpdate = this.state.todos.find(todo => todo._id === _id)
     todoToUpdate.title = title
     todoToUpdate.status = 'open'
     this.setState({todos: this.state.todos})
-    this.api.update(todoToUpdate)
+    this.api.update({_id, title, status:'open'})
   }
-  deleteTodo = (id) => {
-    const todos = this.state.todos.filter(todo => todo._id !== id)
+  deleteTodo = (_id) => {
+    const todos = this.state.todos.filter(todo => todo._id !== _id)
     this.setState({todos})
-    this.api.delete(id)
+    this.api.delete(_id)
   }
   removeAllEditStatus = () => {
     this.state.todos.forEach(todo => {
       if (todo.status === 'edit') {
-        this.updateStatus(todo._id,'open')
-        this.api.update(todo)
+        this.updateStatus(todo._id, 'open')
+        // this.api.update(todo)
       }
     })
   }
   sortTodos = ({oldIndex, newIndex}) => {
+    // we have a special todos object with the minimum for patching:
+    const todosToPatch = []
     const todos = arrayMove(this.state.todos, oldIndex, newIndex)
-      .map((todoItem, index) => {
-        todoItem.order = index
+      .map((todoItem, order) => {
+        todoItem.order = order
+        todosToPatch.push({order, _id: todoItem._id})
         return todoItem
       })
-    this.api.batchUpdate(todos)
+    this.api.batchUpdate(todosToPatch)
     this.setState({todos})
   }
   componentDidMount = () => {
@@ -92,24 +95,21 @@ class App extends Component {
         .then(data => callback(data))
         .catch(error => console.log('Request failed', error))
     },
-    update({_id, title, status, order}) {
+    update(todo) {
+      const {_id} = todo
       fetch(`${TODOS_FOLDER}/${_id}`, {
-          method: 'PUT',
+          method: 'PATCH',
           headers: {'Content-type': 'application/json'},
-          body: JSON.stringify({title, order, status})
+          body: JSON.stringify(todo)
         })
         .then(res => res.json())
         .catch(error => console.log('Request failed', error));
     },
     batchUpdate(todos) {
-      const simplifiedTodos = todos.map(todo => {
-        const {_id, title, status, order} = todo
-        return {_id, title, status, order}
-      })
       fetch(`${TODOS_FOLDER}/`, {
-          method: 'PUT',
+          method: 'PATCH',
           headers: {'Content-type': 'application/json'},
-          body: JSON.stringify(simplifiedTodos)
+          body: JSON.stringify(todos)
         })
         .then(res => res.json())
         .catch(error => console.log('Request failed', error));
