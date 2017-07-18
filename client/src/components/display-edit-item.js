@@ -31,14 +31,14 @@ class displayEditItem extends Component {
   }
   handleEdit = () => {
     this.props.removeAllEditStatus()
-    this.props.updateStatus(this.props.todoItem._id, 'edit')
+    this.props.enableEdit(this.props.todoItem._id, true)
   }
   handleComplete = () => {
     let status = this.props.todoItem.status === 'complete' ? 'open' : 'complete'
     this.props.updateStatus(this.props.todoItem._id, status)
   }
   handleCancel = () => {
-    this.props.updateStatus(this.props.todoItem._id, 'open')
+    this.props.enableEdit(this.props.todoItem._id, false)
   }
   handleUpdate = () => {
     if (this.refs.editTodo.value) {

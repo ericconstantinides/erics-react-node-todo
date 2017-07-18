@@ -34,7 +34,7 @@ const SortableList = SortableContainer(({items}) => {
   )
 })
 
-const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, sortTodos, removeAllEditStatus}) => {
+const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, enableEdit, sortTodos, removeAllEditStatus}) => {
   if (!todos) return <div>Loading...</div>
   todos.sort( (a,b) => a.order - b.order)
   let todoItems = todos.map( todoItem => {
@@ -45,6 +45,7 @@ const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, sortTodos, re
         updateStatus={updateStatus}
         updateTitle={updateTitle}
         deleteTodo={deleteTodo}
+        enableEdit={enableEdit}
         removeAllEditStatus={removeAllEditStatus}
       />
     )

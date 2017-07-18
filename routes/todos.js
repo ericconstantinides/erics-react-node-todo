@@ -63,10 +63,9 @@ router.patch('/:id', function(req, res, next) {
 router.delete('/:id', function(req, res, next) {
   Todo.findByIdAndRemove(req.params.id, function (err, post) {
     if (err) return next(err)
-    res.statusCode = '204'
+    res.statusCode = '200'
     res.statusMessage = 'Successfully Deleted'
-    res.body = {data: null}
-    res.json()
+    res.json({"data": null})
   })
 })
 

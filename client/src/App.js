@@ -20,24 +20,25 @@ class App extends Component {
     const newTodo = {
       title: newTodoTitle,
       status: 'open',
-      order: this.state.todos.length
+      order: -1
     }
     const tempId = Math.random().toString(36).substring(7)
+
     // call the api BEFORE giving it a temp ID
     this.api.create(newTodo, data => {
-      // buy the time we're in callback, we've already gone ahead and given the tempID
+      // buy the time we're in callback, we've got a new ID to replace the temp
       const todoToUpdate = this.state.todos.find(todo => todo._id === tempId)
       todoToUpdate._id = data._id
       this.setState({todos: this.state.todos})
+
+      // now we force one more call to make the order nice and perfect:
+      this.sortTodos({oldIndex:0, newIndex:0})
     })
     // give it a temp ID
     newTodo._id = tempId
     let todos = this.state.todos
     todos.push(newTodo)
     this.setState({todos})
-
-    // put it at the top of the pile:
-    this.sortTodos({oldIndex: (todos.length - 1), newIndex: 0})
   }
   updateStatus = (_id, status) => {
     const todoToUpdate = this.state.todos.find(todo => todo._id === _id)
@@ -52,20 +53,25 @@ class App extends Component {
     this.setState({todos: this.state.todos})
     this.api.update({_id, title, status:'open'})
   }
+  enableEdit = (_id, shouldEnable) => {
+    const todoToEdit = this.state.todos.find(todo => todo._id === _id)
+    todoToEdit.status = shouldEnable ? 'edit' : 'open'
+    this.setState({todos: this.state.todos})
+  }
   deleteTodo = (_id) => {
     const todos = this.state.todos.filter(todo => todo._id !== _id)
     this.setState({todos})
     this.api.delete(_id)
   }
   removeAllEditStatus = () => {
-    this.state.todos.forEach(todo => {
-      if (todo.status === 'edit') {
-        this.updateStatus(todo._id, 'open')
-      }
+    const todos = this.state.todos.map(todo => {
+      if (todo.status === 'edit') todo.status = 'open'
+      return todo
     })
+    this.setState({todos})
   }
   sortTodos = ({oldIndex, newIndex}) => {
-    // we have a special todos object with the minimum for patching:
+    // we have a special todos array with the minimum for patching:
     const todosToPatch = []
     const todos = arrayMove(this.state.todos, oldIndex, newIndex)
       .map((todoItem, order) => {
@@ -116,8 +122,8 @@ class App extends Component {
         .then(res => res.json())
         .catch(error => console.log('Request failed', error));
     },
-    delete(dbId) {
-      fetch(`${TODOS_FOLDER}/${dbId}`, { method: 'DELETE' })
+    delete(_id) {
+      fetch(`${TODOS_FOLDER}/${_id}`, { method: 'DELETE' })
         .then(res => res.json())
         .catch(error => console.log('Request failed', error));
     }
@@ -134,6 +140,7 @@ class App extends Component {
           updateStatus={this.updateStatus}
           updateTitle={this.updateTitle}
           deleteTodo={this.deleteTodo}
+          enableEdit={this.enableEdit}
           sortTodos={this.sortTodos}
           removeAllEditStatus={this.removeAllEditStatus}
         />
