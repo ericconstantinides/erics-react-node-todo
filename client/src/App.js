@@ -25,10 +25,10 @@ class App extends Component {
     const tempId = Math.random().toString(36).substring(7)
 
     // call the api BEFORE giving it a temp ID
-    this.api.create(newTodo, data => {
+    this.api.create(newTodo, returnedTodo => {
       // buy the time we're in callback, we've got a new ID to replace the temp
       const todoToUpdate = this.state.todos.find(todo => todo._id === tempId)
-      todoToUpdate._id = data._id
+      todoToUpdate._id = returnedTodo._id
       this.setState({todos: this.state.todos})
 
       // now we force one more call to make the order nice and perfect:
