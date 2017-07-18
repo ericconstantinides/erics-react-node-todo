@@ -29,14 +29,18 @@ router.get('/:id', function(req, res, next) {
 
 /* BATCH PATCH /todos/ */
 router.patch('/', function(req, res, next) {
-  res.json(req.body.map(todo => {
+  let returnArray = []
+  req.body.map((todo,index) => {
     const {_id} = todo
     if (todo.hasOwnProperty('_id')) delete todo._id
     Todo.findByIdAndUpdate(_id, todo, (err, post) => {
       if (err) return next(err)
-      return post
+      returnArray.push(post)
+      if (index >= (req.body.length - 1)) {
+        res.json(returnArray)
+      }
     })
-  }))
+  })
 })
 
 /* PUT /todos/:id */
