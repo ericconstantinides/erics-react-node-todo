@@ -35,6 +35,9 @@ class App extends Component {
     let todos = this.state.todos
     todos.push(newTodo)
     this.setState({todos})
+
+    // put it at the top of the pile:
+    this.sortTodos({oldIndex: (todos.length - 1), newIndex: 0})
   }
   updateStatus = (_id, status) => {
     const todoToUpdate = this.state.todos.find(todo => todo._id === _id)
@@ -58,7 +61,6 @@ class App extends Component {
     this.state.todos.forEach(todo => {
       if (todo.status === 'edit') {
         this.updateStatus(todo._id, 'open')
-        // this.api.update(todo)
       }
     })
   }
@@ -124,6 +126,9 @@ class App extends Component {
     return (
       <div>
         <h1>Eric's React To Do App</h1>
+        <AddItem
+          addTodo={this.addTodo}
+        />
         <ListItems
           todos={this.state.todos}
           updateStatus={this.updateStatus}
@@ -131,9 +136,6 @@ class App extends Component {
           deleteTodo={this.deleteTodo}
           sortTodos={this.sortTodos}
           removeAllEditStatus={this.removeAllEditStatus}
-        />
-        <AddItem
-          addTodo={this.addTodo}
         />
       </div>
     )

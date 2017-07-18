@@ -49,7 +49,7 @@ const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, sortTodos, re
       />
     )
   })
-  return <SortableList items={todoItems} lockAxis="y" useDragHandle={true} onSortEnd={sortTodos} />;
+  return <SortableList items={todoItems} helperClass="grabbed-item" lockAxis="y" useDragHandle={true} onSortEnd={sortTodos} />;
 }
 
 export default listItems

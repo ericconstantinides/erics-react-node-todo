@@ -55,9 +55,6 @@ class displayEditItem extends Component {
       this.handleUpdate()
     }
   }
-  // componentWillMount = () => {
-    // this.props.removeAllEditStatus()
-  // }
   componentDidUpdate = (event) => {
     if (this.props.todoItem.status === 'edit') {
       this.refs.editTodo.focus()
