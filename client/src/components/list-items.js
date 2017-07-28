@@ -5,28 +5,28 @@ import DisplayEditItem from './display-edit-item.js'
 import {
   SortableContainer,
   SortableElement,
-  SortableHandle,
+  SortableHandle
 } from 'react-sortable-hoc'
 
 const DragHandle = SortableHandle(() => {
- return (
-  <div className="list-group-item__drag drag">
-    <span className="drag__item"></span>
-    <span className="drag__item"></span>
-    <span className="drag__item"></span>
-  </div>
+  return (
+    <div className='list-group-item__drag drag'>
+      <span className='drag__item' />
+      <span className='drag__item' />
+      <span className='drag__item' />
+    </div>
   )
 })
 
 const SortableItem = SortableElement(({value}) =>
-  <li className="list-group-item">
+  <li className='list-group-item'>
     <DragHandle />
     {value}
   </li>
 )
 const SortableList = SortableContainer(({items}) => {
   return (
-    <ul className="list-group">
+    <ul className='list-group'>
       {items.map((value, index) => (
         <SortableItem key={`item-${index}`} index={index} value={value} />
       ))}
@@ -34,10 +34,10 @@ const SortableList = SortableContainer(({items}) => {
   )
 })
 
-const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, enableEdit, sortTodos, removeAllEditStatus}) => {
+const listItems = ({todos, updateStatus, updateTitle, deleteTodo, enableEdit, sortTodos, removeAllEditStatus}) => {
   if (!todos) return <div>Loading...</div>
-  todos.sort( (a,b) => a.order - b.order)
-  let todoItems = todos.map( todoItem => {
+  todos.sort((a, b) => a.order - b.order)
+  let todoItems = todos.map(todoItem => {
     return (
       <DisplayEditItem
         key={todoItem._id}
@@ -50,7 +50,7 @@ const listItems = ({ todos, updateStatus, updateTitle, deleteTodo, enableEdit, s
       />
     )
   })
-  return <SortableList items={todoItems} helperClass="grabbed-item" lockAxis="y" useDragHandle={true} onSortEnd={sortTodos} />;
+  return <SortableList items={todoItems} helperClass='grabbed-item' lockAxis='y' useDragHandle onSortEnd={sortTodos} />
 }
 
 export default listItems

@@ -4,7 +4,7 @@ var router = express.Router()
 var Todo = require('../models/Todo.js')
 
 /* GET /todos listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   Todo.find(function (err, todos) {
     if (err) return next(err)
     res.json(todos)
@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 })
 
 /* POST /todos */
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
   Todo.create(req.body, function (err, post) {
     if (err) return next(err)
     res.json(post)
@@ -20,7 +20,7 @@ router.post('/', function(req, res, next) {
 })
 
 /* GET /todos/id */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function (req, res, next) {
   Todo.findById(req.params.id, function (err, post) {
     if (err) return next(err)
     res.json(post)
@@ -28,9 +28,9 @@ router.get('/:id', function(req, res, next) {
 })
 
 /* BATCH PATCH /todos/ */
-router.patch('/', function(req, res, next) {
+router.patch('/', function (req, res, next) {
   let returnArray = []
-  req.body.map((todo,index) => {
+  req.body.map((todo, index) => {
     const {_id} = todo
     if (todo.hasOwnProperty('_id')) delete todo._id
     Todo.findByIdAndUpdate(_id, todo, (err, post) => {
@@ -44,7 +44,7 @@ router.patch('/', function(req, res, next) {
 })
 
 /* PUT /todos/:id */
-router.put('/:id', function(req, res, next) {
+router.put('/:id', function (req, res, next) {
   Todo.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err)
     res.statusMessage = 'Successfully Updated'
@@ -53,7 +53,7 @@ router.put('/:id', function(req, res, next) {
 })
 
 /* PATCH /todos/:id */
-router.patch('/:id', function(req, res, next) {
+router.patch('/:id', function (req, res, next) {
   if (req.body.hasOwnProperty('_id')) delete req.body._id
   Todo.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err)
@@ -64,12 +64,12 @@ router.patch('/:id', function(req, res, next) {
 })
 
 /* DELETE /todos/:id */
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', function (req, res, next) {
   Todo.findByIdAndRemove(req.params.id, function (err, post) {
     if (err) return next(err)
     res.statusCode = '200'
     res.statusMessage = 'Successfully Deleted'
-    res.json({"data": null})
+    res.json({'data': null})
   })
 })
 
