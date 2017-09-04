@@ -9,7 +9,7 @@
     "XXXstart": "node ./bin/www",
     "XXXweb": "node ./bin/www",
     "start": "concurrently \"yarn run server\" \"yarn run client\"",
-    "server": "nodemon ./bin/www",
+    "server": "nodemon ./server",
     "client": "node start-client.js"
   },
   "dependencies": {

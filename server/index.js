@@ -1,23 +1,23 @@
 const express = require('express')
 const path = require('path')
-// const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 
+const PORT = process.env.PORT || 3001
+
+// routes:
 const routes = require('./routes/index')
 // const users = require('./routes/users')
 const todos = require('./routes/todos')
-
-// load mongoose package
-const mongoose = require('mongoose')
 
 // Use native Node promises
 mongoose.Promise = global.Promise
 
 // connect to MongoDB
 mongoose.connect('mongodb://localhost/monkey')
-  .then(() => console.log('connection to erics-node-todo db succesful'))
+  .then(() => console.log('connection to erics-node-todo db successful'))
   .catch((err) => console.error(err))
 
 const app = express()
@@ -67,6 +67,11 @@ app.use(function (err, req, res, next) {
     message: err.message,
     error: {}
   })
+})
+
+// Starting up the server
+app.listen(PORT, () => {
+  console.log(`Express server listening on port ${PORT}`)
 })
 
 module.exports = app
